@@ -10,7 +10,9 @@ class ProductSupplierInline(admin.TabularInline):
               'supplier',
               'cost',
               'lead_time',
-              'preferential')
+              'pct_discount',
+              'minimum_batch',
+              'preferential',)
     autocomplete_fields = ['supplier']
 
 
@@ -18,10 +20,10 @@ class ProductSupplierInline(admin.TabularInline):
 class categoryAdmin(admin.ModelAdmin):
     list_display = ('name',
                     'created_at',
-                    'updated_at')
-    search_fields = ('name')
-    list_filter = ('created_at')
-    ordering = ('name')
+                    'updated_at',)
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('name',)
 
 
 @admin.register(Product)
@@ -31,14 +33,14 @@ class productAdmin(admin.ModelAdmin):
                     'category',
                     'brand',
                     'price',
-                    'perishable')
+                    'perishable',)
     search_fields = ('name',
-                     'sku')
+                     'sku',)
     list_filter = ('category',
-                   'brand')
-    ordering = ('name')
+                   'brand',)
+    ordering = ('name',)
     list_select_related = ('category',
-                           'brand')
+                           'brand',)
     inlines = [ProductSupplierInline]
     actions = ['mark_perishable']
 
@@ -54,7 +56,7 @@ class productAdmin(admin.ModelAdmin):
 class brandAdmin(admin.ModelAdmin):
     list_display = ('name',
                     'created_at',
-                    'updated_at')
-    search_fields = ('name')
-    list_filter = ('created_at')
-    ordering = ('name')
+                    'updated_at',)
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('name',)

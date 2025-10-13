@@ -3,3 +3,4 @@ django-countries
 python-dotenv
 mysqlclient
 pillow
+Faker

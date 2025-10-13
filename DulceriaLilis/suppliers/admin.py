@@ -15,4 +15,12 @@ class supplierAdmin(admin.ModelAdmin):
     search_fields = ('rut_nif',
                      'trade_name',
                      'email')
-    ordering = ('rut_nif')
+    ordering = ('rut_nif',)
+
+    def has_module_permission(self, request):
+        if request.user.is_superuser:
+            return True
+        roles = [group.name for group in request.user.groups.all()]
+        if 'Bodega' in roles:
+            return False
+        return True
