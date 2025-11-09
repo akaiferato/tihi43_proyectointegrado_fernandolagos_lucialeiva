@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Edit Profile</h2>
+    <div class="text-center mb-4">
+        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

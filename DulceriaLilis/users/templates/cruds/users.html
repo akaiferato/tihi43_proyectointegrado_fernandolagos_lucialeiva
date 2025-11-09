@@ -1,349 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de Usuario</title>
-  <style>
-    /* --- Estilos Comunes (Reutilizados de productos.html) --- */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-    }
+{% block title %}Formulario de Usuario{% endblock %}
 
-    .widget {
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      margin-bottom: 25px;
-      overflow: hidden;
-    }
-
-    .widget-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .widget-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      margin: 0;
-    }
-
-    .widget-content {
-      padding: 20px;
-    }
-
-    .form-section-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #444;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
-      color: #555;
-      font-weight: 600;
-    }
-
-    .form-group label span {
-      font-weight: normal;
-      color: #888;
-      font-size: 12px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .form-group input[readonly] {
-      background-color: #f4f4f4;
-      color: #777;
-      cursor: not-allowed;
-    }
-
-    .form-actions {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #f0f0f0;
-    }
-
-    /* Botones */
-    .btn {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      margin-left: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
-
-    .btn-secondary {
-      background-color: #f8f9fa;
-      color: #555;
-      border: 1px solid #ccc;
-    }
-
-    .btn-secondary:hover {
-      background-color: #e2e6ea;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      color: #ffffff;
-    }
-
-    .btn-danger:hover {
-      background-color: #c82333;
-    }
-
-    .btn-edit {
-      background-color: #6c757d;
-      color: #ffffff;
-    }
-
-    .btn-edit:hover {
-      background-color: #5a6268;
-    }
-
-    .btn-link {
-      background-color: transparent;
-      color: #007bff;
-      padding: 10px 0;
-      margin-left: 0;
-    }
-
-    .btn-link:hover {
-      text-decoration: underline;
-    }
-
-    .btn-sm {
-      padding: 5px 10px;
-      font-size: 12px;
-    }
-
-    /* Toolbar */
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      /* Para responsive */
-      gap: 10px;
-    }
-
-    .toolbar-left {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .toolbar-right {
-      display: flex;
-    }
-
-    .search-input {
-      width: 250px;
-      padding: 10px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .filter-select {
-      padding: 10px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 14px;
-      background-color: #fff;
-    }
-
-    /* Tabla */
-    .table-wrapper {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    th,
-    td {
-      padding: 12px 10px;
-      /* Un poco menos de padding para que quepa */
-      text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-      white-space: nowrap;
-      /* Evita que el texto se parta */
-    }
-
-    th {
-      background-color: #f8f9fa;
-      font-weight: bold;
-      color: #333;
-    }
-
-    tbody tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    td.actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    /* --- Estilos Específicos de esta Página --- */
-
-    .main-container {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      /* Layout 1/3 - 2/3 */
-      gap: 25px;
-      align-items: flex-start;
-      /* Para que las columnas se alineen arriba */
-    }
-
-    /* Responsive para layout principal */
-    @media (max-width: 1200px) {
-      .main-container {
-        grid-template-columns: 1fr;
-        /* Apila las columnas */
-      }
-    }
-
-    /* Fila de formulario con 2 columnas */
-    .form-row {
-      display: flex;
-      gap: 20px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-      /* Ambas ocupan 50% */
-    }
-
-    /* --- Toggle Switch (para MFA) --- */
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 28px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 28px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked+.slider {
-      background-color: #28a745;
-      /* Color verde para 'habilitado' */
-    }
-
-    input:checked+.slider:before {
-      transform: translateX(22px);
-    }
-
-    .toggle-label {
-      margin-left: 10px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    /* --- Badges de Estado (para la tabla) --- */
-    .status-badge {
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .status-activo {
-      background-color: #e0f8e9;
-      color: #28a745;
-    }
-
-    .status-inactivo {
-      background-color: #fff8e1;
-      color: #ffc107;
-    }
-
-    .status-bloqueado {
-      background-color: #fde0e0;
-      color: #dc3545;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="main-container">
+{% block content %}
+<div class="main-container">
 
     <div class="form-container">
       <div class="widget">
@@ -355,32 +15,32 @@
             <div class="form-section-title">Identificación</div>
             <div class="form-group">
               <label for="username">username <span>(requerido, único)</span></label>
-              <input type="text" id="username" value="j.cortes">
+              <input type="text" id="username" value="j.cortes" class="form-control">
             </div>
             <div class="form-group">
               <label for="email">email <span>(requerido, único)</span></label>
-              <input type="email" id="email" value="usuario@dominio.com">
+              <input type="email" id="email" value="usuario@dominio.com" class="form-control">
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="nombres">nombres <span>(requerido)</span></label>
-                <input type="text" id="nombres" value="Jorge">
+                <input type="text" id="nombres" value="Jorge" class="form-control">
               </div>
               <div class="form-group">
                 <label for="apellidos">apellidos <span>(requerido)</span></label>
-                <input type="text" id="apellidos" value="Cortés">
+                <input type="text" id="apellidos" value="Cortés" class="form-control">
               </div>
             </div>
             <div class="form-group">
               <label for="telefono">telefono <span>(opcional)</span></label>
-              <input type="text" id="telefono" value="+56 9 1234 5678">
+              <input type="text" id="telefono" value="+56 9 1234 5678" class="form-control">
             </div>
 
             <div class="form-section-title">Estado y acceso</div>
             <div class="form-row">
               <div class="form-group">
                 <label for="rol">rol <span>(requerido)</span></label>
-                <select id="rol">
+                <select id="rol" class="form-select">
                   <option>Seleccione...</option>
                   <option>Admin</option>
                   <option>Auditor</option>
@@ -389,7 +49,7 @@
               </div>
               <div class="form-group">
                 <label for="estado">estado <span>(requerido, default ACTIVO)</span></label>
-                <select id="estado">
+                <select id="estado" class="form-select">
                   <option value="ACTIVO">ACTIVO</option>
                   <option value="INACTIVO">INACTIVO</option>
                   <option value="BLOQUEADO">BLOQUEADO</option>
@@ -410,13 +70,13 @@
               </div>
               <div class="form-group">
                 <label for="ultimo_acceso">último acceso <span>(solo lectura)</span></label>
-                <input type="text" id="ultimo_acceso" value="—" readonly>
+                <input type="text" id="ultimo_acceso" value="—" readonly class="form-control">
               </div>
             </div>
 
             <div class="form-group">
               <label for="sesiones_activas">sesiones activas <span>(solo lectura)</span></label>
-              <input type="text" id="sesiones_activas" value="0" readonly>
+              <input type="text" id="sesiones_activas" value="0" readonly class="form-control">
             </div>
 
             <div class="form-actions">
@@ -436,13 +96,13 @@
         <div class="widget-content">
           <div class="toolbar">
             <div class="toolbar-left">
-              <input type="text" class="search-input" placeholder="Buscar por username...">
-              <select class="filter-select">
+              <input type="text" class="search-input form-control" placeholder="Buscar por username...">
+              <select class="filter-select form-select">
                 <option>Rol: Todos</option>
                 <option>Admin</option>
                 <option>Auditor</option>
               </select>
-              <select class="filter-select">
+              <select class="filter-select form-select">
                 <option>Estado: Todos</option>
                 <option>Activo</option>
                 <option>Inactivo</option>
@@ -454,7 +114,7 @@
           </div>
 
           <div class="table-wrapper">
-            <table>
+            <table class="table">
               <thead>
                 <tr>
                   <th>Username</th>
@@ -525,9 +185,5 @@
         </div>
       </div>
     </div>
-
-  </div>
-
-</body>
-
-</html>
+</div>
+{% endblock %}

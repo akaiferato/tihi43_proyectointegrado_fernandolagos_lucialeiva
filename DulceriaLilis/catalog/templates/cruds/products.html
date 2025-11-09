@@ -1,278 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de Producto</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-    }
+{% block title %}Formulario de Producto{% endblock %}
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    h1 {
-      font-size: 24px;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    /* --- Pestañas de Navegación --- */
-    .tabs {
-      display: flex;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      color: #555;
-      font-size: 16px;
-    }
-
-    .tab.active {
-      color: #007bff;
-      border-bottom: 3px solid #007bff;
-      font-weight: bold;
-    }
-
-    /* --- Estilo de Widget/Tarjeta --- */
-    .widget {
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      margin-bottom: 25px;
-      overflow: hidden;
-      /* Para que el header y content se ajusten bien */
-    }
-
-    .widget-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .widget-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      margin: 0;
-    }
-
-    .widget-content {
-      padding: 20px;
-    }
-
-    /* --- Estilos de Formulario --- */
-    .form-section-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #444;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group.col-span-full {
-      grid-column: 1 / -1;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
-      color: #555;
-      font-weight: 600;
-    }
-
-    .form-group label span {
-      font-weight: normal;
-      color: #888;
-      font-size: 12px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="number"],
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-      /* Importante para que el padding no afecte el ancho */
-    }
-
-    .form-group textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .form-group input[readonly] {
-      background-color: #f4f4f4;
-      color: #777;
-      cursor: not-allowed;
-    }
-
-    .form-actions {
-      text-align: right;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #f0f0f0;
-    }
-
-    /* --- Botones --- */
-    .btn {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      margin-left: 10px;
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
-
-    .btn-secondary {
-      background-color: #f8f9fa;
-      color: #555;
-      border: 1px solid #ccc;
-    }
-
-    .btn-secondary:hover {
-      background-color: #e2e6ea;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      color: #ffffff;
-    }
-
-    .btn-danger:hover {
-      background-color: #c82333;
-    }
-
-    .btn-edit {
-      background-color: #6c757d;
-      color: #ffffff;
-    }
-
-    .btn-edit:hover {
-      background-color: #5a6268;
-    }
-
-    .btn-link {
-      background-color: transparent;
-      color: #007bff;
-      padding: 10px 0;
-    }
-
-    .btn-link:hover {
-      text-decoration: underline;
-    }
-
-    .btn-sm {
-      padding: 5px 10px;
-      font-size: 12px;
-    }
-
-    /* --- Toolbar (para búsqueda y exportar) --- */
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .toolbar-left {
-      display: flex;
-      gap: 10px;
-    }
-
-    .toolbar-right {
-      display: flex;
-    }
-
-    .search-input {
-      width: 300px;
-      padding: 10px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    /* --- Tabla --- */
-    .table-wrapper {
-      overflow-x: auto;
-      /* Para responsive en tablas */
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    th,
-    td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    th {
-      background-color: #f8f9fa;
-      font-weight: bold;
-      color: #333;
-    }
-
-    tbody tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    td.actions {
-      display: flex;
-      gap: 8px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
+{% block content %}
+<div class="container">
     <h1>Formulario de Producto</h1>
 
     <div class="tabs">
@@ -288,26 +19,26 @@
           <div class="form-grid" style="--cols: 1">
             <div class="form-group col-span-full">
               <label for="sku">SKU <span>(requerido, único)</span></label>
-              <input type="text" id="sku" value="SKU-0001">
+              <input type="text" id="sku" value="SKU-0001" class="form-control">
             </div>
             <div class="form-group col-span-full">
               <label for="ean">ean_upc <span>(opcional, único si se usa)</span></label>
-              <input type="text" id="ean" value="7891234567890">
+              <input type="text" id="ean" value="7891234567890" class="form-control">
             </div>
             <div class="form-group col-span-full">
               <label for="nombre">nombre <span>(requerido)</span></label>
-              <input type="text" id="nombre" value="Silla ergonómica">
+              <input type="text" id="nombre" value="Silla ergonómica" class="form-control">
             </div>
             <div class="form-group col-span-full">
               <label for="descripcion">descripcion <span>(opcional)</span></label>
-              <textarea id="descripcion">Detalles del producto...</textarea>
+              <textarea id="descripcion" class="form-control">Detalles del producto...</textarea>
             </div>
           </div>
 
           <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr;">
             <div class="form-group">
               <label for="categoria">categoria <span>(requerido)</span></label>
-              <select id="categoria">
+              <select id="categoria" class="form-select">
                 <option>Seleccione...</option>
                 <option>Oficina</option>
                 <option>Hogar</option>
@@ -315,11 +46,11 @@
             </div>
             <div class="form-group">
               <label for="marca">marca <span>(opcional)</span></label>
-              <input type="text" id="marca" value="MarcaX">
+              <input type="text" id="marca" value="MarcaX" class="form-control">
             </div>
             <div class="form-group">
               <label for="modelo">modelo <span>(opcional)</span></label>
-              <input type="text" id="modelo" value="MX-200">
+              <input type="text" id="modelo" value="MX-200" class="form-control">
             </div>
           </div>
 
@@ -327,7 +58,7 @@
           <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
             <div class="form-group">
               <label for="uom_compra">uom_compra <span>(requerido)</span></label>
-              <select id="uom_compra">
+              <select id="uom_compra" class="form-select">
                 <option>Seleccione...</option>
                 <option>Unidad</option>
                 <option>Caja</option>
@@ -335,32 +66,32 @@
             </div>
             <div class="form-group">
               <label for="uom_venta">uom_venta <span>(requerido)</span></label>
-              <select id="uom_venta">
+              <select id="uom_venta" class="form-select">
                 <option>Seleccione...</option>
                 <option>Unidad</option>
               </select>
             </div>
             <div class="form-group">
               <label for="factor_conversion">factor_conversion <span>(requerido, default 1)</span></label>
-              <input type="number" id="factor_conversion" value="1">
+              <input type="number" id="factor_conversion" value="1" class="form-control">
             </div>
           </div>
           <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
             <div class="form-group">
               <label for="costo_estandar">costo_estandar <span>(opcional)</span></label>
-              <input type="text" id="costo_estandar" value="—" readonly>
+              <input type="text" id="costo_estandar" value="—" readonly class="form-control">
             </div>
             <div class="form-group">
               <label for="costo_promedio">costo_promedio <span>(solo lectura)</span></label>
-              <input type="text" id="costo_promedio" value="—" readonly>
+              <input type="text" id="costo_promedio" value="—" readonly class="form-control">
             </div>
             <div class="form-group">
               <label for="precio_venta">precio_venta <span>(opcional)</span></label>
-              <input type="number" id="precio_venta" placeholder="0">
+              <input type="number" id="precio_venta" placeholder="0" class="form-control">
             </div>
             <div class="form-group">
               <label for="impuesto_iva">impuesto_iva <span>(requerido, ej: 19%)</span></label>
-              <input type="number" id="impuesto_iva" value="19">
+              <input type="number" id="impuesto_iva" value="19" class="form-control">
             </div>
           </div>
 
@@ -379,7 +110,7 @@
       <div class="widget-content">
         <div class="toolbar">
           <div class="toolbar-left">
-            <input type="text" class="search-input" placeholder="Buscar por SKU o nombre...">
+            <input type="text" class="search-input form-control" placeholder="Buscar por SKU o nombre...">
           </div>
           <div class="toolbar-right">
             <button type="button" class="btn btn-secondary">Exportar a Excel</button>
@@ -387,7 +118,7 @@
         </div>
 
         <div class="table-wrapper">
-          <table>
+          <table class="table">
             <thead>
               <tr>
                 <th>SKU</th>
@@ -420,9 +151,5 @@
         </div>
       </div>
     </div>
-
-  </div>
-
-</body>
-
-</html>
+</div>
+{% endblock %}

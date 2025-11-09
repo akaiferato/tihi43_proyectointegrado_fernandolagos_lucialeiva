@@ -25,6 +25,7 @@ class User(AbstractUser):
     area = models.CharField(max_length=20,
                             blank=True)
     observaciones = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg', blank=True, null=True)
 
     groups = models.ManyToManyField('auth.Group',
                                     verbose_name=('groups'),
