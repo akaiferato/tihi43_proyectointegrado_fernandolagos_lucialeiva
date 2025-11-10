@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load user_tags %}
+
+{% block title %}Cellar Detail{% endblock %}
+
+{% block content %}
+    <h2>{{ cellar.cellar_name }}</h2>
+    <p><strong>Location:</strong> {{ cellar.location }}</p>
+    <a href="{% url 'cellar_list' %}" class="btn btn-secondary">Back to List</a>
+    {% if user|has_group:"Administrador" or user|has_group:"Editor" %}
+    <a href="{% url 'cellar_update' cellar.pk %}" class="btn btn-warning">Edit</a>
+    {% endif %}
+    {% if user|has_group:"Administrador" %}
+    <a href="{% url 'cellar_delete' cellar.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+{% endblock %}

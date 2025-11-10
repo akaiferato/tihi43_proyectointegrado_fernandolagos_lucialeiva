@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load user_tags %}
+
+{% block title %}Category Detail{% endblock %}
+
+{% block content %}
+    <h2>{{ category.name }}</h2>
+    <p><strong>Description:</strong> {{ category.description|default:"N/A" }}</p>
+    <a href="{% url 'category_list' %}" class="btn btn-secondary">Back to List</a>
+    {% if user|has_group:"Administrador" or user|has_group:"Editor" %}
+    <a href="{% url 'category_update' category.pk %}" class="btn btn-warning">Edit</a>
+    {% endif %}
+    {% if user|has_group:"Administrador" %}
+    <a href="{% url 'category_delete' category.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+{% endblock %}

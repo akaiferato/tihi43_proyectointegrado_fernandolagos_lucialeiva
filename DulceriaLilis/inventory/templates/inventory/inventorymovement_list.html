@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load user_tags %}
 
-{% block title %}Supplier List{% endblock %}
+{% block title %}Inventory Movement List{% endblock %}
 
 {% block content %}
-    <h2>Supplier List</h2>
+    <h2>Inventory Movement List</h2>
 
     <!-- Search, Paginate, Export -->
     <div class="row mb-3">
         <div class="col-md-6">
             <form method="get" class="d-flex">
-                <input type="text" name="q" class="form-control me-2" placeholder="Search suppliers..." value="{{ request.GET.q }}">
+                <input type="text" name="q" class="form-control me-2" placeholder="Search movements..." value="{{ request.GET.q }}">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
@@ -23,56 +23,62 @@
                     <option value="50" {% if paginate_by == 50 %}selected{% endif %}>50</option>
                 </select>
             </form>
-            <a href="{% url 'supplier_export' %}" class="btn btn-success">Export to Excel</a>
+            <a href="{% url 'inventorymovement_export' %}" class="btn btn-success">Export to Excel</a>
         </div>
     </div>
 
     {% if user|has_group:"Administrador" or user|has_group:"Editor" %}
-    <a href="{% url 'supplier_create' %}" class="btn btn-primary mb-3">Create Supplier</a>
+    <a href="{% url 'inventorymovement_create' %}" class="btn btn-primary mb-3">Create Movement</a>
     {% endif %}
 
     <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>
-                    <a href="?sort_by=trade_name&direction={% if sort_by == 'trade_name' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                        Trade Name
-                        {% if sort_by == 'trade_name' %}
+                    <a href="?sort_by=product&direction={% if sort_by == 'product' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Product
+                        {% if sort_by == 'product' %}
                             <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                         {% endif %}
                     </a>
                 </th>
+                <th>Cellar</th>
+                <th>User</th>
+                <th>Movement Type</th>
+                <th>Quantity</th>
                 <th>
-                    <a href="?sort_by=email&direction={% if sort_by == 'email' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                        Email
-                        {% if sort_by == 'email' %}
+                    <a href="?sort_by=created_at&direction={% if sort_by == 'created_at' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Date
+                        {% if sort_by == 'created_at' %}
                             <i class="fas fa-sort-{% if direction == 'asc' %}up{% else %}down{% endif %}"></i>
                         {% endif %}
                     </a>
                 </th>
-                <th>Phone</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for supplier in suppliers %}
+            {% for movement in inventory_movements %}
                 <tr>
-                    <td>{{ supplier.trade_name }}</td>
-                    <td>{{ supplier.email }}</td>
-                    <td>{{ supplier.telephone_number }}</td>
+                    <td>{{ movement.product }}</td>
+                    <td>{{ movement.cellar }}</td>
+                    <td>{{ movement.user }}</td>
+                    <td>{{ movement.get_movement_type_display }}</td>
+                    <td>{{ movement.quantity }}</td>
+                    <td>{{ movement.created_at|date:"Y-m-d H:i" }}</td>
                     <td>
-                        <a href="{% url 'supplier_detail' supplier.pk %}" class="btn btn-info btn-sm">View</a>
+                        <a href="{% url 'inventorymovement_detail' movement.pk %}" class="btn btn-info btn-sm">View</a>
                         {% if user|has_group:"Administrador" or user|has_group:"Editor" %}
-                        <a href="{% url 'supplier_update' supplier.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'inventorymovement_update' movement.pk %}" class="btn btn-warning btn-sm">Edit</a>
                         {% endif %}
                         {% if user|has_group:"Administrador" %}
-                        <a href="{% url 'supplier_delete' supplier.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="{% url 'inventorymovement_delete' movement.pk %}" class="btn btn-danger btn-sm">Delete</a>
                         {% endif %}
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="4">No suppliers found.</td>
+                    <td colspan="7">No inventory movements found.</td>
                 </tr>
             {% endfor %}
         </tbody>

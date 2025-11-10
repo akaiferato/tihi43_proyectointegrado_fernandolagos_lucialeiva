@@ -1,21 +1,79 @@
 {% extends 'base.html' %}
+{% load user_tags %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h2>Welcome to Dulceria Lilis!</h2>
+<div class="hero-section">
+    <h1>Welcome to Dulceria Lilis!</h1>
     {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}.</p>
-        <p><a href="{% url 'logout' %}">Logout</a></p>
+        <p>Hello, {{ user.username }}. Manage your candy store with ease.</p>
     {% else %}
-        <p>You are not logged in.</p>
-        <p><a href="{% url 'login' %}">Login</a></p>
+        <p>Your one-stop solution for managing your candy store. Login to get started.</p>
+        <a href="{% url 'login' %}" class="btn btn-light">Login</a>
     {% endif %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <h3>Manage Products</h3>
+            <p>Easily add, edit, and delete products from your catalog.</p>
+            <a href="{% if user.is_authenticated %}{% url 'product_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Products</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-truck"></i></div>
+            <h3>Track Suppliers</h3>
+            <p>Keep a record of your suppliers and their information.</p>
+            <a href="{% if user.is_authenticated %}{% url 'supplier_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Suppliers</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-users"></i></div>
+            <h3>User Management</h3>
+            <p>Manage user profiles and permissions.</p>
+            <a href="{% if user.is_authenticated %}{% if user|has_group:'Administrador' %}{% url 'user_list' %}{% else %}{% url 'profile_edit' %}{% endif %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">{% if user|has_group:'Administrador' %}Manage Users{% else %}Edit Profile{% endif %}</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-tags"></i></div>
+            <h3>Manage Categories</h3>
+            <p>Organize your products by category.</p>
+            <a href="{% if user.is_authenticated %}{% url 'category_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Categories</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-copyright"></i></div>
+            <h3>Manage Brands</h3>
+            <p>Keep track of your product brands.</p>
+            <a href="{% if user.is_authenticated %}{% url 'brand_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Brands</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-warehouse"></i></div>
+            <h3>Manage Cellars</h3>
+            <p>Manage your inventory cellars.</p>
+            <a href="{% if user.is_authenticated %}{% url 'cellar_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Cellars</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="feature-card">
+            <div class="icon"><i class="fas fa-dolly"></i></div>
+            <h3>Inventory Movements</h3>
+            <p>Track all inventory movements.</p>
+            <a href="{% if user.is_authenticated %}{% url 'inventorymovement_list' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary">Go to Movements</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

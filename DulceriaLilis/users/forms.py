@@ -33,3 +33,8 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ('old_password', 'new_password1', 'new_password2')
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'groups', 'is_staff', 'is_active', 'telephone_number', 'state', 'mfa_enabled', 'area', 'observaciones', 'profile_picture')

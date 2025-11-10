@@ -21,10 +21,16 @@ class Category(Base):
     name = models.CharField(max_length=20,
                             blank=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Brand(Base):
     name = models.CharField(max_length=20,
                             blank=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(Base):

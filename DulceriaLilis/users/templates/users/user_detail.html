@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load user_tags %}
+
+{% block title %}User Detail{% endblock %}
+
+{% block content %}
+    <div class="text-center mb-4">
+        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+    </div>
+    <h2>{{ user.username }}</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    <p><strong>Telephone:</strong> {{ user.telephone_number }}</p>
+    <p><strong>Area:</strong> {{ user.area }}</p>
+    <p><strong>State:</strong> {{ user.get_state_display }}</p>
+    <p><strong>Groups:</strong> {% for group in user.groups.all %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    <p><strong>MFA Enabled:</strong> {{ user.mfa_enabled|yesno:"Yes,No" }}</p>
+    <p><strong>Staff status:</strong> {{ user.is_staff|yesno:"Yes,No" }}</p>
+    <p><strong>Active:</strong> {{ user.is_active|yesno:"Yes,No" }}</p>
+    <p><strong>Observations:</strong> {{ user.observaciones|default:"N/A" }}</p>
+    <a href="{% url 'user_list' %}" class="btn btn-secondary">Back to List</a>
+    {% if user|has_group:"Administrador" %}
+    <a href="{% url 'user_update' user.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'user_delete' user.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+{% endblock %}
