@@ -1,0 +1,207 @@
+/* Dulceria Lilis - Red and Gold Theme */
+
+:root {
+    --primary-red: #c0392b; /* A strong red color */
+    --primary-gold: #d4af37; /* A rich gold color */
+    --light-gold: #f1e5ac; /* A lighter gold for backgrounds */
+    --dark-red: #a93226;   /* A darker red for hover effects */
+    --text-color: #343a40;
+    --light-text-color: #ffffff;
+    --navbar-bg: #ffffff;
+    --footer-bg: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    background-color: #fdfaf6; /* A very light, warm off-white */
+}
+
+.navbar {
+    background-color: var(--navbar-bg);
+    border-bottom: 3px solid var(--primary-gold);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand img {
+    max-height: 40px; /* Control the size of the logo */
+    width: auto;
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-red);
+}
+
+.btn-primary {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+    color: var(--light-text-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-red);
+    border-color: var(--dark-red);
+}
+
+.btn-secondary {
+    background-color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--light-text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #b89b31; /* Darker gold */
+    border-color: #b89b31;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-red);
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: var(--light-gold);
+    color: var(--primary-red);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-gold);
+}
+
+/* Form Styling */
+.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid var(--primary-red);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: .75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px var(--light-gold);
+}
+
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Home Page Styling */
+.hero-section {
+    background: linear-gradient(to right, var(--primary-red), var(--primary-gold));
+    color: var(--light-text-color);
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+    color: var(--light-text-color);
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+}
+
+.feature-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .icon {
+    font-size: 3rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .navbar-nav {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+}

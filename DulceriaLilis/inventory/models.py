@@ -37,6 +37,9 @@ class Cellar(Base):
                                    blank=False)
     location = models.CharField(max_length=255,
                                 blank=True)
+    
+    def __str__(self):
+        return self.cellar_name
 
 
 class inventoryMovement(Base):

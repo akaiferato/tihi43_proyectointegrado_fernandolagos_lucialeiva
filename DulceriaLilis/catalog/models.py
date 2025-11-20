@@ -56,13 +56,13 @@ class Product(Base):
                                 blank=False)
     conversion_factor = models.BooleanField(blank=False,
                                             default=True)
-    price = models.IntegerField(blank=True)
+    price = models.IntegerField(blank=False)
     iva_tax = models.DecimalField(max_digits=5,
                                   decimal_places=2,
                                   blank=False)
     minimum_stock = models.IntegerField(blank=False,
                                         default=0)
-    maximum_stock = models.IntegerField(blank=True)
+    maximum_stock = models.IntegerField(blank=False)
     perishable = models.BooleanField(blank=False,
                                      default=False)
     batch_control = models.BooleanField(blank=False,
@@ -83,6 +83,9 @@ class Product(Base):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class productSupplier(Base):

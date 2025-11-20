@@ -42,3 +42,6 @@ class Supplier(Base):
                                 blank=False)
     state = models.CharField(max_length=3,
                              choices=stateChoices.choices)
+
+    def __str__(self):
+        return self.trade_name
