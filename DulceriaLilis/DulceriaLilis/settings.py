@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'suppliers',
     'users',
     'sweetify',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [

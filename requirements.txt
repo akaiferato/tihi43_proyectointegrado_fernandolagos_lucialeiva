@@ -3,6 +3,6 @@ django-countries
 python-dotenv
 mysqlclient
 pillow
-Faker
 sweetify
 openpyxl
+djangorestframework
