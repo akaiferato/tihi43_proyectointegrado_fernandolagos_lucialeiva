@@ -19,6 +19,7 @@ from django.urls import path, include
 from users import views as user_views
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('suppliers/', include('suppliers.urls')),
     path('users/', include('users.urls')),
     path('api/', include('api.urls')),
+    path('api/login/', obtain_auth_token, name='api_login'),
 ]
 
 if settings.DEBUG:
